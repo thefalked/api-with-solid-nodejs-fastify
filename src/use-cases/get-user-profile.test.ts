@@ -23,11 +23,11 @@ describe('Get User Profile Use Case', async () => {
       password_hash: await hash('123456', 6),
     })
 
-    const registerResponse = await sut.execute({
+    const sutResponse = await sut.execute({
       userId: user.id,
     })
 
-    expect(registerResponse).toEqual(
+    expect(sutResponse).toEqual(
       expect.objectContaining({
         user: expect.objectContaining({
           id: expect.any(String),
@@ -41,7 +41,7 @@ describe('Get User Profile Use Case', async () => {
   })
 
   it('should not be able to get user profile with wrong id', async () => {
-    expect(() =>
+    await expect(() =>
       sut.execute({
         userId: 'non-existent-id',
       }),
