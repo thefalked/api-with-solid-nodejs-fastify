@@ -53,4 +53,32 @@ describe('Check-in Use Case', async () => {
       }),
     ).rejects.toBeInstanceOf(Error)
   })
+
+  it('should be able to check in twice but in diffrent days', async () => {
+    vi.setSystemTime(new Date(2023, 0, 20, 8, 0, 0))
+
+    await sut.execute({
+      userId: 'user-01',
+      gymId: 'gym-01',
+    })
+
+    vi.setSystemTime(new Date(2023, 0, 21, 8, 0, 0))
+
+    const sutResponse = await sut.execute({
+      userId: 'user-01',
+      gymId: 'gym-01',
+    })
+
+    expect(sutResponse).toEqual(
+      expect.objectContaining({
+        checkIn: expect.objectContaining({
+          id: expect.any(String),
+          gym_id: expect.any(String),
+          user_id: expect.any(String),
+          validated_at: null,
+          created_at: expect.any(Date),
+        }),
+      }),
+    )
+  })
 })
