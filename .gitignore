@@ -4,5 +4,8 @@ node_modules
 # Environment
 .env
 
+# Test
+coverage
+
 # Build
 build
