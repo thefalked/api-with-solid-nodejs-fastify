@@ -5,8 +5,8 @@ GymPass style app.
 ## Functional Requirement
 
 - [x] It must be possible to register;
-- [ ] It must be possible to authenticate;
-- [ ] It must be possible to obtain the profile of a logged in user;
+- [x] It must be possible to authenticate;
+- [x] It must be possible to obtain the profile of a logged in user;
 - [ ] It must be possible to obtain the number of check-ins performed by the logged-in user;
 - [ ] It must be possible for the user to obtain his check-in history;
 - [ ] It must be possible for the user to search for nearby gyms;
@@ -27,6 +27,6 @@ GymPass style app.
 ## Non-Functional Requirement
 
 - [x] The user's password must be encrypted;
-- [ ] The application data must be persisted in a PostgreSQL database;
+- [x] The application data must be persisted in a PostgreSQL database;
 - [ ] All data lists must be paginated with 20 items per page;
 - [ ] The user must be identified by a JWT (JSON Web Token);
