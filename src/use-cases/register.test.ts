@@ -1,10 +1,11 @@
-import { describe, it, expect, beforeEach } from 'vitest'
 import { compare } from 'bcryptjs'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 import { InMemoryUsersRepository } from '@/repositories/in-memory/users-repository'
 
-import { RegisterUseCase } from './register'
 import { UserAlreadyRegisteredError } from './errors/user-already-registered-error'
+
+import { RegisterUseCase } from './register'
 
 let usersRepository: InMemoryUsersRepository
 let sut: RegisterUseCase
