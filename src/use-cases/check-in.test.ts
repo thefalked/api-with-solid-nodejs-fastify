@@ -3,14 +3,27 @@ import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
 import { InMemoryCheckInsRepository } from '@/repositories/in-memory/check-ins-repository'
 
 import { CheckInUseCase } from './check-in'
+import { InMemoryGymsRepository } from '@/repositories/in-memory/gyms-repository'
+import { Decimal } from '@prisma/client/runtime'
 
 let checkInsRepository: InMemoryCheckInsRepository
+let gymsRepository: InMemoryGymsRepository
 let sut: CheckInUseCase
 
 describe('Check-in Use Case', async () => {
   beforeEach(() => {
     checkInsRepository = new InMemoryCheckInsRepository()
-    sut = new CheckInUseCase(checkInsRepository)
+    gymsRepository = new InMemoryGymsRepository()
+    sut = new CheckInUseCase(checkInsRepository, gymsRepository)
+
+    gymsRepository.gyms.push({
+      id: 'gym-01',
+      title: 'JS Gym',
+      description: '',
+      phone: '',
+      latitude: new Decimal(0),
+      longitude: new Decimal(0),
+    })
 
     vi.useFakeTimers()
   })
@@ -23,6 +36,8 @@ describe('Check-in Use Case', async () => {
     const sutResponse = await sut.execute({
       userId: 'user-01',
       gymId: 'gym-01',
+      userLatitude: 0,
+      userLongitude: 0,
     })
 
     expect(sutResponse).toEqual(
@@ -44,12 +59,16 @@ describe('Check-in Use Case', async () => {
     await sut.execute({
       userId: 'user-01',
       gymId: 'gym-01',
+      userLatitude: 0,
+      userLongitude: 0,
     })
 
     await expect(() =>
       sut.execute({
         userId: 'user-01',
         gymId: 'gym-01',
+        userLatitude: 0,
+        userLongitude: 0,
       }),
     ).rejects.toBeInstanceOf(Error)
   })
@@ -60,6 +79,8 @@ describe('Check-in Use Case', async () => {
     await sut.execute({
       userId: 'user-01',
       gymId: 'gym-01',
+      userLatitude: 0,
+      userLongitude: 0,
     })
 
     vi.setSystemTime(new Date(2023, 0, 21, 8, 0, 0))
@@ -67,6 +88,8 @@ describe('Check-in Use Case', async () => {
     const sutResponse = await sut.execute({
       userId: 'user-01',
       gymId: 'gym-01',
+      userLatitude: 0,
+      userLongitude: 0,
     })
 
     expect(sutResponse).toEqual(
