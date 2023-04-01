@@ -1,8 +1,9 @@
 import crypto from 'node:crypto'
 import { Gym, Prisma } from '@prisma/client'
 
-import { FindManyNearbyParams, GymsRepository } from '../gyms-respository'
 import { getDistanceBetweenCoordinates } from '@/utils/get-distance-between-coordiantes'
+
+import { FindManyNearbyParams, GymsRepository } from '../gyms-respository'
 
 export class InMemoryGymsRepository implements GymsRepository {
   public gyms: Gym[] = []
