@@ -24,6 +24,10 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
     )
   }
 
+  async findById(id: string) {
+    return this.checkIns.find((checkIn) => checkIn.id === id) ?? null
+  }
+
   async findManyByUserId(userId: string, page: number): Promise<CheckIn[]> {
     return this.checkIns
       .filter((checkIn) => checkIn.user_id === userId)
@@ -34,17 +38,31 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
     return this.checkIns.filter((checkIn) => checkIn.user_id === userId).length
   }
 
-  async create(data: Prisma.CheckInUncheckedCreateInput) {
+  async create(checkIn: Prisma.CheckInUncheckedCreateInput) {
     const user: CheckIn = {
-      id: data.id ?? crypto.randomUUID(),
-      user_id: data.user_id,
-      gym_id: data.gym_id,
-      validated_at: data.validated_at ? new Date(data.validated_at) : null,
+      id: checkIn.id ?? crypto.randomUUID(),
+      user_id: checkIn.user_id,
+      gym_id: checkIn.gym_id,
+      validated_at: checkIn.validated_at
+        ? new Date(checkIn.validated_at)
+        : null,
       created_at: new Date(),
     }
 
     this.checkIns.push(user)
 
     return user
+  }
+
+  async save(checkIn: CheckIn) {
+    const checkInIndex = this.checkIns.findIndex(
+      (checkInSaved) => checkInSaved.id === checkIn.id,
+    )
+
+    if (checkInIndex >= 0) {
+      this.checkIns[checkInIndex] = checkIn
+    }
+
+    return checkIn
   }
 }
