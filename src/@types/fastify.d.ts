@@ -5,6 +5,7 @@ declare module '@fastify/jwt' {
     payload: {}
     user: {
       sub: string
+      role: 'ADMIN' | 'MEMBER'
     }
   }
 }
